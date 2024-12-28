@@ -50,11 +50,11 @@ async def mafia(interaction):
 async def addmafia(interaction: discord.Interaction, member: discord.Member):
     global queue
     if member in queue:
-        await interaction.response.send_message(f"{member.mention}, is already in the Mafia!")
+        await interaction.response.send_message(f"{member.mention} is already in the Mafia!")
     elif len(queue) >= queue_limit:
         await interaction.response.send_message("The Mafia is full! Please wait for the next game.")
     else:
-        queue.append(interaction.user.mention)
+        queue.append(member)
         await interaction.response.send_message(f"{member.mention} has joined the Mafia! ({len(queue)}/{queue_limit})")
         if len(queue) == queue_limit:
             await start_game()
@@ -72,6 +72,14 @@ async def leave(interaction):
     else:
         await interaction.response.send_message(f"{interaction.user.mention}, you are not in the Mafia!")
 
+@tree.command(
+    name="rules",
+    description="How to play",
+    guild=discord.Object(id=271191981999259648)
+)
+async def rules(interaction):
+    await interaction.response.send_message("HOW TO PLAY")
+
 async def start_game():
     global queue
     channel = client.get_channel(1321380377461522443)
@@ -86,7 +94,7 @@ async def start_game():
     team1 = queue[:3]
     team2 = queue[3:]
 
-    # Select the Mafia
+    # Select the Mafia Rat
     mafia_member = random.choice(queue)
 
     # Notify Mafia in DM
@@ -97,6 +105,9 @@ async def start_game():
     team2_mentions = ", ".join(player.mention for player in team2)
 
     await channel.send(f"Team 1: {team1_mentions}\nTeam 2: {team2_mentions}")
+
+    # Reset the queue
+    queue = []
 
 @tree.command(
     name="status",
@@ -109,22 +120,6 @@ async def status(interaction):
     else:
         queue_mentions = ", ".join(player.mention for player in queue)
         await interaction.response.send_message(f"Current Mafia ({len(queue)}/{queue_limit}): {queue_mentions}")
-
-@tree.command(
-    name="snitch",
-    description="Snitch to the Mafia",
-    guild=discord.Object(id=271191981999259648)
-)
-async def snitch(interaction: discord.Interaction, member: discord.Member):
-    global queue
-    mafia_member =
-    if interaction.user in queue:
-        await interaction.response.send_message("The rat has been reported to the Boss of the Mob.")
-        if member == mafia_member:
-            await interaction.response.send_message("The rat is sleeping with the fishes.")
-        queue = []
-    else:
-        await interaction.response.send_message(f"{interaction.user.mention}, you cannot snitch if you are not in the Mafia!")
 
 # UPDATE TOKEN IN ENV FILE / TOP OF FILE
 client.run(TOKEN)
