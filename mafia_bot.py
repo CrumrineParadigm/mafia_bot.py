@@ -21,7 +21,7 @@ correct = []
 incorrect = []
 mafia_voted = []
 replay = []
-queue_limit = 8
+queue_limit = 6
 mafia_role = "Rat"
 mafia_member = None
 
@@ -172,8 +172,8 @@ async def start_game():
 
     # Shuffle players and assign teams
     random.shuffle(queue)
-    team1 = queue[:4]
-    team2 = queue[4:]
+    team1 = queue[:3]
+    team2 = queue[3:]
 
     # Select the Mafia Rat
     mafia_member = random.choice(queue)
