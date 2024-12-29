@@ -3,7 +3,6 @@ from discord import app_commands
 import random
 import os
 from dotenv import load_dotenv
-import time
 
 load_dotenv('.env')
 TOKEN: str = os.getenv('TOKEN')
@@ -22,7 +21,7 @@ correct = []
 incorrect = []
 mafia_voted = []
 replay = []
-queue_limit = 6
+queue_limit = 8
 mafia_role = "Rat"
 mafia_member = None
 
@@ -173,8 +172,8 @@ async def start_game():
 
     # Shuffle players and assign teams
     random.shuffle(queue)
-    team1 = queue[:3]
-    team2 = queue[3:]
+    team1 = queue[:4]
+    team2 = queue[4:]
 
     # Select the Mafia Rat
     mafia_member = random.choice(queue)
@@ -235,7 +234,6 @@ async def report(interaction: discord.Interaction, member: discord.Member):
                 description = f"**Awaiting ({len(queue) - len(mafia_voted)}/{queue_limit})**\n{queue_mentions}"
             )
             await interaction.response.send_message(embed = report1_embed)
-            time.sleep(2)
             if len(correct) + len(incorrect) == queue_limit:
                 report2_embed = discord.Embed(
                     color = discord.Colour.from_rgb(255, 0, 0),
@@ -264,7 +262,6 @@ async def report(interaction: discord.Interaction, member: discord.Member):
                 description = f"**Awaiting ({len(queue) - len(mafia_voted)}/{queue_limit})**\n{queue_mentions}"
             )
             await interaction.response.send_message(embed = report3_embed)
-            time.sleep(2)
             if len(correct) + len(incorrect) == queue_limit:
                 report4_embed = discord.Embed(
                     color = discord.Colour.from_rgb(255, 0, 0),
