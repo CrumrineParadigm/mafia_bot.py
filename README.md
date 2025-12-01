@@ -45,14 +45,10 @@ The bot reads configuration from a `.env` file at repository root. Minimal requi
 
 ```
 TOKEN=your_discord_bot_token
+GUILD_ID=server_id
+GAME_CHANNEL_ID=channel_id
+ADMIN_ROLE_ID=admin_role_id
 ```
-
-Optional/Hard‑coded values (TODO to move into env variables):
-- `GUILD_ID` (currently hard‑coded: `271191981999259648`)
-- `GAME_CHANNEL_ID` (currently hard‑coded: `1321380377461522443`)
-- `ADMIN_ROLE_ID` for `/addmafia` (currently hard‑coded: `764088348452323348`)
-- `QUEUE_LIMIT` (currently hard‑coded to `6`)
-- `MAFIA_ROLE_NAME` (currently `"Rat"`)
 
 ---
 

@@ -7,6 +7,9 @@ import asyncio
 
 load_dotenv('.env')
 TOKEN: str = os.getenv('TOKEN')
+GUILD_ID: int = int(os.getenv('GUILD_ID'))
+GAME_CHANNEL_ID: int = int(os.getenv('GAME_CHANNEL_ID'))
+ADMIN_ROLE_ID: int = int(os.getenv('ADMIN_ROLE_ID'))
 
 # Bot setup
 intents = discord.Intents.all()
@@ -31,13 +34,13 @@ mafia_member = None
 
 @client.event
 async def on_ready():
-    await tree.sync(guild=discord.Object(id=271191981999259648))
+    await tree.sync(guild=discord.Object(id=GUILD_ID))
     print(f'Bot is ready as {client.user}')
 
 @tree.command(
     name="mafia",
     description="Join the Mafia",
-    guild=discord.Object(id=271191981999259648)
+    guild=discord.Object(id=GUILD_ID)
 )
 async def mafia(interaction):
     global queue
@@ -75,9 +78,9 @@ async def mafia(interaction):
 @tree.command(
     name="addmafia",
     description="Add someone to the Mafia",
-    guild=discord.Object(id=271191981999259648)
+    guild=discord.Object(id=GUILD_ID)
 )
-@discord.app_commands.checks.has_role(764088348452323348)
+@discord.app_commands.checks.has_role(ADMIN_ROLE_ID)
 async def addmafia(interaction: discord.Interaction, member: discord.Member):
     global queue
     global need_vote
@@ -115,7 +118,7 @@ async def addmafia(interaction: discord.Interaction, member: discord.Member):
 @tree.command(
     name="leave",
     description="Leave the Mafia",
-    guild=discord.Object(id=271191981999259648)
+    guild=discord.Object(id=GUILD_ID)
 )
 async def leave(interaction):
     global queue
@@ -144,7 +147,7 @@ async def leave(interaction):
 @tree.command(
     name="rules",
     description="How to play",
-    guild=discord.Object(id=271191981999259648)
+    guild=discord.Object(id=GUILD_ID)
 )
 async def rules(interaction):
     rules_embed = discord.Embed(
@@ -160,7 +163,7 @@ async def start_game():
     global queue
     global mafia_member
     async with lock:
-        channel = client.get_channel(1321380377461522443)
+        channel = client.get_channel(GAME_CHANNEL_ID)
         if len(queue) != queue_limit:
             start1_embed = discord.Embed(
                 color = discord.Colour.from_rgb(255, 0, 0),
@@ -213,7 +216,7 @@ async def start_game():
 @tree.command(
     name="report",
     description="Report to the Boss",
-    guild=discord.Object(id=271191981999259648)
+    guild=discord.Object(id=GUILD_ID)
 )
 async def report(interaction: discord.Interaction, member: discord.Member):
     global queue
@@ -225,7 +228,7 @@ async def report(interaction: discord.Interaction, member: discord.Member):
     global mafia_voted
     global replay
     async with lock:
-        channel = client.get_channel(1321380377461522443)
+        channel = client.get_channel(GAME_CHANNEL_ID)
         if interaction.user in need_vote:
             if mafia_member == member:
                 mafia_voted.append(interaction.user.mention)
@@ -297,7 +300,7 @@ async def report(interaction: discord.Interaction, member: discord.Member):
 # @tree.command(
 #     name="requeue",
 #     description="Requeue all Mafia",
-#     guild=discord.Object(id=271191981999259648)
+#     guild=discord.Object(id=GUILD_ID)
 # )
 # async def requeue(interaction):
 #     global queue
@@ -319,7 +322,7 @@ async def report(interaction: discord.Interaction, member: discord.Member):
 @tree.command(
     name="status",
     description="View the Mafia",
-    guild=discord.Object(id=271191981999259648)
+    guild=discord.Object(id=GUILD_ID)
 )
 async def status(interaction):
     if not queue:
