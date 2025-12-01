@@ -73,9 +73,12 @@ ADMIN_ROLE_ID=admin_role_id
    ```
    pip install discord.py python-dotenv
    ```
-4. Create a `.env` file containing your bot token:
+4. Create a `.env` file containing your bot token, server ID, channel ID, and admin role ID:
    ```
    TOKEN=your_discord_bot_token
+   GUILD_ID=server_id
+   GAME_CHANNEL_ID=channel_id
+   ADMIN_ROLE_ID=admin_role_id
    ```
 5. In the Discord Developer Portal:
    - Add a Bot to your application.
@@ -147,13 +150,7 @@ There are no packaging scripts defined in this repo. Common commands:
 ---
 
 ## Configuration & Deployment
-- IDs are hard‑coded:
-  - Guild: `271191981999259648`
-  - Game Channel: `1321380377461522443`
-  - Admin Role: `764088348452323348`
-
 TODO:
-- Move the above IDs and gameplay constants into environment variables or a config file (e.g., `settings.toml` or `.env` entries such as `GUILD_ID`, `GAME_CHANNEL_ID`, `ADMIN_ROLE_ID`, `QUEUE_LIMIT`, `MAFIA_ROLE_NAME`).
 - Add Dockerfile and a production process manager configuration (e.g., systemd or Docker Compose) for hosting.
 
 ---
